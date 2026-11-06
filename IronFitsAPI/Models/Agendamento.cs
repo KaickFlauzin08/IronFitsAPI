@@ -6,7 +6,7 @@
         public DateTime DataAgendamento { get; set; }
         public string Status { get; set; }
 
-        public int ClienteId { get; set; }
+        public int AlunoId { get; set; }
         public Aluno? Aluno { get; set; }
         public List<Aluno>? Alunos { get; set; }
 

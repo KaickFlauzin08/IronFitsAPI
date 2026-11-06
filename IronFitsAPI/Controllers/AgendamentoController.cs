@@ -23,7 +23,7 @@ namespace IronFitsAPI.Controllers
             {
                 DataAgendamento = agt.DataAgendamento,
                 Status = agt.Status,
-                ClienteId = agt.ClienteId,
+                AlunoId = agt.AlunoId,
                 PersonalId = agt.PersonalId
             };
             _context.SaveChanges();
@@ -38,7 +38,7 @@ namespace IronFitsAPI.Controllers
                 .Include(a => a.DataAgendamento)
                 .Select(a => new Agendamento
                 {
-                    ClienteId = a.ClienteId,
+                    AlunoId = a.AlunoId,
                     PersonalId = a.PersonalId,
                     DataAgendamento = a.DataAgendamento,
                     Status = a.Status,

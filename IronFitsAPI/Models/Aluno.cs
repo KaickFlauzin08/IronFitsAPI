@@ -7,7 +7,6 @@ namespace IronFitsApi.Models
         public int? Id { get; set; }
         public string NomeAluno { get; set; }
         public string CPFAluno { get; set; }
-        [JsonIgnore]
-        public string? Roles { get; set; }
+        public string? Roles { get;set; }
     }
 }

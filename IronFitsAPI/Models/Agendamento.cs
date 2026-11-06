@@ -7,8 +7,8 @@
         public string Status { get; set; }
 
         public int ClienteId { get; set; }
-        public Cliente? Cliente { get; set; }
-        public List<Cliente>? Clientes { get; set; }
+        public Aluno? Aluno { get; set; }
+        public List<Aluno>? Alunos { get; set; }
 
         public int PersonalId { get; set; }
         public Personal? Personal { get; set; }

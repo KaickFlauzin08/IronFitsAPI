@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string? NomePersonal { get; set; }
-        public string CPFPersonal { get; set; } = string.Empty;
+        public string CPFPersonal { get; set; } 
         public string? Roles { get; set; } 
     }
 }

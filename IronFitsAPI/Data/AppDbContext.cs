@@ -1,5 +1,5 @@
-﻿using IronFitApi.Models;
-using IronFitsApi.Models;
+﻿using IronFitsApi.Models;
+using IronFitsAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IronFitSApi.Data
@@ -12,5 +12,6 @@ namespace IronFitSApi.Data
         public DbSet<Agendamento> Agendamentos { get; set; }
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Personal> Personais { get; set; }
+        public DbSet<Admin> Admins { get; set; }
     }
 }

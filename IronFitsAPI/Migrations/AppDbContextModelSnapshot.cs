@@ -34,6 +34,10 @@ namespace IronFitsAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NomeAdmin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Roles")
                         .HasColumnType("nvarchar(max)");
 
@@ -63,11 +67,15 @@ namespace IronFitsAPI.Migrations
                     b.Property<int>("PersonalId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("Servico")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("PersonalId");
 
                     b.ToTable("Agendamentos");
                 });
@@ -87,6 +95,9 @@ namespace IronFitsAPI.Migrations
                     b.Property<string>("NomeAluno")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonalId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Roles")
                         .HasColumnType("nvarchar(max)");
@@ -117,6 +128,25 @@ namespace IronFitsAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Personais");
+                });
+
+            modelBuilder.Entity("IronFitsApi.Models.Agendamento", b =>
+                {
+                    b.HasOne("IronFitsApi.Models.Aluno", "Aluno")
+                        .WithMany()
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IronFitsApi.Models.Personal", "Personal")
+                        .WithMany()
+                        .HasForeignKey("PersonalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Personal");
                 });
 #pragma warning restore 612, 618
         }

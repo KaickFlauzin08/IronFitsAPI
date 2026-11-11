@@ -22,7 +22,6 @@ namespace IronFitsAPI.Controllers
             _context = context;
         }
 
-
         [HttpPost]
         public async Task<ActionResult> CriarAluno(Aluno aluno)
         {
@@ -30,6 +29,7 @@ namespace IronFitsAPI.Controllers
             {
                 CPFAluno = aluno.CPFAluno,
                 NomeAluno = aluno.NomeAluno,
+                PersonalId = aluno.PersonalId,
                 Roles = aluno.Roles
             };
             _context.Alunos.Add(novoaluno);
@@ -46,6 +46,7 @@ namespace IronFitsAPI.Controllers
                     Id = a.Id,
                     NomeAluno = a.NomeAluno,
                     CPFAluno = CpfCms.Criptografar(a.CPFAluno),
+                    PersonalId = a.PersonalId,
                     Roles = a.Roles
                 }).ToListAsync();
 
@@ -64,15 +65,15 @@ namespace IronFitsAPI.Controllers
         public async Task<ActionResult> DeletarAluno(int id)
         {
             var aluno = await _context.Alunos.FindAsync(id);
-            _context.Alunos.Remove(aluno!);
-            await _context.SaveChangesAsync();
+            if (aluno != null)
+            {
+                _context.Alunos.Remove(aluno);
+                await _context.SaveChangesAsync();
+            }
             return Ok();
         }
 
-
-
-
-        //CRIPTOGRAFIA DE CPF
+        // CRIPTOGRAFIA DE CPF
         public static class CpfCms
         {
             private static readonly X509Certificate2 Cert = CriarCertificado();
@@ -108,7 +109,5 @@ namespace IronFitsAPI.Controllers
                 return Encoding.UTF8.GetString(cms.ContentInfo.Content);
             }
         }
-
-
     }
 }

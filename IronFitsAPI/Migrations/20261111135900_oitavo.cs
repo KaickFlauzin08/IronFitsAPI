@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IronFitsAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class quarto : Migration
+    public partial class oitavo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace IronFitsAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeAdmin = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Roles = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -27,22 +28,6 @@ namespace IronFitsAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Agendamentos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DataAgendamento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlunoId = table.Column<int>(type: "int", nullable: false),
-                    PersonalId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Agendamentos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Alunos",
                 columns: table => new
                 {
@@ -50,6 +35,7 @@ namespace IronFitsAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeAluno = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CPFAluno = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PersonalId = table.Column<int>(type: "int", nullable: false),
                     Roles = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -71,6 +57,44 @@ namespace IronFitsAPI.Migrations
                 {
                     table.PrimaryKey("PK_Personais", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Agendamentos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataAgendamento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Servico = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AlunoId = table.Column<int>(type: "int", nullable: false),
+                    PersonalId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Agendamentos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Agendamentos_Alunos_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Alunos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Agendamentos_Personais_PersonalId",
+                        column: x => x.PersonalId,
+                        principalTable: "Personais",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Agendamentos_AlunoId",
+                table: "Agendamentos",
+                column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Agendamentos_PersonalId",
+                table: "Agendamentos",
+                column: "PersonalId");
         }
 
         /// <inheritdoc />

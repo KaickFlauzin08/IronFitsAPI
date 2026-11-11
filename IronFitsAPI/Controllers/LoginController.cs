@@ -1,4 +1,5 @@
 ﻿using IronFitsAPI.Models;
+using IronFitsAPI.Models.DTOs;
 using IronFitSApi.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace IronFitsAPI.Controllers
         {
             var novoadmin = new Admin
             {
+                NomeAdmin = Adm.NomeAdmin,
                 Email = Adm.Email,
                 Senha = Adm.Senha,
                 Roles = Adm.Roles
@@ -35,18 +37,22 @@ namespace IronFitsAPI.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] Admin admin)
+        public async Task<IActionResult> Login([FromBody] LoginDto login)
         {
-            var user = await _context.Admins.FirstOrDefaultAsync(u => u.Email == admin.Email);
+            var user = await _context.Admins.FirstOrDefaultAsync(u => u.Email == login.Email);
 
-            if (user != null && user.Senha == admin.Senha)
+            if (user != null && user.Senha == login.Senha)
             {
                 var token = CriarToken(user);
-                return Ok(new { token });
+                return Ok(new
+                {
+                    nomeAdmin = user.NomeAdmin,
+                    token
+                });
             }
 
             return Unauthorized(new { Mensagem = "Credenciais inválidas" });
-        }
+        }   
 
         private string CriarToken(Admin admin)
         {
